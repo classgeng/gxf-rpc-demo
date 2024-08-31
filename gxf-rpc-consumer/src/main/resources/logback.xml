@@ -14,11 +14,11 @@
 	
 	<!-- 系统日志输出 -->
 	<appender name="file_info" class="ch.qos.logback.core.rolling.RollingFileAppender">
-	    <file>${log.path}/server.log</file>
+	    <file>${log.path}/consumer.log</file>
         <!-- 循环政策：基于时间创建日志文件 -->
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 日志文件名格式 -->
-			<fileNamePattern>${log.path}/provider.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<fileNamePattern>${log.path}/consumer.%d{yyyy-MM-dd}.log</fileNamePattern>
 			<!-- 日志最大的历史 60天 -->
 			<maxHistory>60</maxHistory>
 		</rollingPolicy>
@@ -30,9 +30,9 @@
 	<!-- 系统模块日志级别控制  -->
 	<logger name="com.demo" level="info" />
 	<!-- Spring日志级别控制  -->
-	<logger name="org.springframework" level="warn" />
+	<logger name="org.springframework" level="info" />
 
-	<root level="info">
+	<root level="debug">
 		<appender-ref ref="console" />
 	</root>
 	

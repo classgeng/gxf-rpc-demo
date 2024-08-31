@@ -25,16 +25,7 @@
         </dependency>
         <dependency>
             <groupId>com.gxf.rpc.demo</groupId>
-            <artifactId>gxf-rpc-server</artifactId>
-        </dependency>
-        <!-- 添加logback依赖 -->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
+            <artifactId>gxf-rpc-core</artifactId>
         </dependency>
     </dependencies>
 

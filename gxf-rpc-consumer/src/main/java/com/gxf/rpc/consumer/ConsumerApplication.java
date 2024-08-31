@@ -2,12 +2,14 @@ package com.gxf.rpc.consumer;
 
 import com.gxf.rpc.api.model.User;
 import com.gxf.rpc.api.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 简易服务消费者示例
  *
  * @author xfenggeng
  */
+@Slf4j
 public class ConsumerApplication {
 
     public static void main(String[] args) {
@@ -20,9 +22,9 @@ public class ConsumerApplication {
         // 调用
         User newUser = userService.getUser(user);
         if (newUser != null) {
-            System.out.println(newUser.getName());
+            log.info(newUser.getName());
         } else {
-            System.out.println("user == null");
+            log.info("user == null");
         }
     }
 }

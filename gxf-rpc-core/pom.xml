@@ -11,13 +11,17 @@
     </parent>
 
     <groupId>com.gxf.rpc.demo</groupId>
-    <artifactId>gxf-rpc-server</artifactId>
+    <artifactId>gxf-rpc-core</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>gxf-rpc-server</name>
+    <name>gxf-rpc-core</name>
     <packaging>jar</packaging>
     <description>后端服务框架</description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.gxf.rpc.demo</groupId>
+            <artifactId>gxf-rpc-registry</artifactId>
+        </dependency>
         <!-- 添加logback依赖 -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -26,17 +30,31 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.63.Final</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.gxf.rpc.demo</groupId>
-            <artifactId>gxf-rpc-registry</artifactId>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.caucho</groupId>
+            <artifactId>hessian</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

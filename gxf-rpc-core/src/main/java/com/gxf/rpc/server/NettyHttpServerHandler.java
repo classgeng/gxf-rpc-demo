@@ -5,21 +5,21 @@ import com.gxf.rpc.model.RpcResponse;
 import com.gxf.rpc.registry.LocalRegistry;
 import com.gxf.rpc.serializer.JdkSerializer;
 import com.gxf.rpc.serializer.Serializer;
+import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
-public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
-    private static final Logger logger = LoggerFactory.getLogger(HttpServerHandler.class);
+@Slf4j
+public class NettyHttpServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest req) {
-        logger.info("method:{}, uri:{}", req.method().name(), req.uri());
+        log.info("method:{}, uri:{}", req.method().name(), req.uri());
         // 指定序列化器
         final Serializer serializer = new JdkSerializer();
         // 序列化请求参数
@@ -32,7 +32,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        cause.printStackTrace();
+        log.error(cause.getMessage());
         ctx.close();
     }
 
@@ -42,12 +42,15 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
      * @param request
      * @param serializer
      */
-    RpcRequest doRequest(FullHttpRequest request, Serializer serializer) {
+    private RpcRequest doRequest(FullHttpRequest request, Serializer serializer) {
         RpcRequest rpcRequest = null;
         try {
-            byte[] requestContent = request.content().array();
-            rpcRequest = serializer.deserialize(requestContent, RpcRequest.class);
-            logger.info("doRequest:{}", rpcRequest);
+            ByteBuf content = request.content();
+            byte[] reqContent = new byte[content.readableBytes()];
+            content.readBytes(reqContent);
+
+            rpcRequest = serializer.deserialize(reqContent, RpcRequest.class);
+            log.info("doRequest:{}", rpcRequest);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -60,7 +63,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
      *
      * @param rpcRequest
      */
-    RpcResponse doHandler(RpcRequest rpcRequest) {
+    private RpcResponse doHandler(RpcRequest rpcRequest) {
         // 构造响应结果对象
         RpcResponse rpcResponse = new RpcResponse();
         // 如果请求为 null，直接返回
@@ -90,9 +93,9 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
      *
      * @param rpcResponse
      */
-    void doResponse(ChannelHandlerContext ctx, RpcResponse rpcResponse, Serializer serializer) {
+    private void doResponse(ChannelHandlerContext ctx, RpcResponse rpcResponse, Serializer serializer) {
         try {
-            logger.info("doResponse:{}", rpcResponse);
+            log.info("doResponse:{}", rpcResponse);
             // 序列化
             byte[] serialized = serializer.serialize(rpcResponse);
             FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1,
