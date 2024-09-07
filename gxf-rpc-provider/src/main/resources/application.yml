@@ -1,5 +1,0 @@
-server:
-  port: 18081
-spring:
-  application:
-    name: gxf-rpc-provider

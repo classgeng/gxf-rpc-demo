@@ -1,7 +1,6 @@
 package com.gxf.rpc.model;
 
 import lombok.*;
-
 import java.io.Serializable;
 
 /**

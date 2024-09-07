@@ -7,14 +7,19 @@ import com.gxf.rpc.serializer.JdkSerializer;
 import com.gxf.rpc.serializer.Serializer;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.nio.charset.Charset;
+import java.util.Map;
 
 @Slf4j
+@ChannelHandler.Sharable
 public class NettyHttpServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
     @Override
@@ -24,8 +29,10 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<FullHttp
         final Serializer serializer = new JdkSerializer();
         // 序列化请求参数
         RpcRequest rpcRequest = this.doRequest(req, serializer);
+        log.info("rpcRequest info: " + rpcRequest.toString());
         // 处理并返回结果
         RpcResponse rpcResponse = this.doHandler(rpcRequest);
+        log.info("rpcResponse info: " + rpcResponse.toString());
         //响应
         this.doResponse(ctx, rpcResponse, serializer);
     }
@@ -81,7 +88,7 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<FullHttp
             rpcResponse.setDataType(method.getReturnType());
             rpcResponse.setMessage("ok");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("doHandler error: " + e);
             rpcResponse.setMessage(e.getMessage());
             rpcResponse.setException(e);
         }
@@ -106,6 +113,26 @@ public class NettyHttpServerHandler extends SimpleChannelInboundHandler<FullHttp
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 打印头部信息
+     * @param request
+     */
+    private void parseHttpHeaders(FullHttpRequest request){
+        HttpHeaders httpHeaders = request.headers();
+        for (Map.Entry<String, String> entry : httpHeaders.entries()) {
+            log.info(entry.getKey()+":"+entry.getValue());
+        }
+    }
+
+    /**
+     * 打印请求体
+     * @param request
+     */
+    private void parseBody(FullHttpRequest request){
+        String reqContent = request.content().toString(Charset.defaultCharset());
+        log.info("request params:{}", reqContent);
     }
 
 }

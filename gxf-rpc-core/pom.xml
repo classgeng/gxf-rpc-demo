@@ -20,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>com.gxf.rpc.demo</groupId>
-            <artifactId>gxf-rpc-registry</artifactId>
+            <artifactId>gxf-rpc-registry-client</artifactId>
         </dependency>
         <!-- 添加logback依赖 -->
         <dependency>

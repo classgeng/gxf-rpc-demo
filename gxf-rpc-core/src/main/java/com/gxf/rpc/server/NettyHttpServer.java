@@ -1,10 +1,7 @@
 package com.gxf.rpc.server;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -21,8 +18,16 @@ import lombok.extern.slf4j.Slf4j;
 public class NettyHttpServer {
     private int port;
 
+    private ChannelInboundHandlerAdapter handler;
+
     public NettyHttpServer(int port) {
         this.port = port;
+        this.handler = new NettyHttpServerHandler();
+    }
+
+    public NettyHttpServer(int port, ChannelInboundHandlerAdapter handler) {
+        this.port = port;
+        this.handler = null == handler ? new NettyHttpServerHandler() : handler;
     }
 
     /**
@@ -47,7 +52,7 @@ public class NettyHttpServer {
                             // 用于处理HTTP报文转换
                             ch.pipeline().addLast(new HttpObjectAggregator(65536));
                             // 用于处理请求，执行请求拦截器
-                            ch.pipeline().addLast(new NettyHttpServerHandler());
+                            ch.pipeline().addLast(handler);
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)

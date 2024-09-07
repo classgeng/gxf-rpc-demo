@@ -15,12 +15,20 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>gxf-rpc-registry</name>
     <packaging>jar</packaging>
-    <description>本地注册中心</description>
+    <description>注册中心</description>
 
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.gxf.rpc.demo</groupId>
+            <artifactId>gxf-rpc-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.gxf.rpc.demo</groupId>
+            <artifactId>gxf-rpc-registry-client</artifactId>
         </dependency>
     </dependencies>
 

@@ -27,10 +27,6 @@
             <groupId>com.gxf.rpc.demo</groupId>
             <artifactId>gxf-rpc-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.gxf.rpc.demo</groupId>
-            <artifactId>gxf-rpc-registry</artifactId>
-        </dependency>
     </dependencies>
 
     <build>

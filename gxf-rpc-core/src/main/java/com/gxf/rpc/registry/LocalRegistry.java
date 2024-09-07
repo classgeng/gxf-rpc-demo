@@ -4,7 +4,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 本地服务注册中心
+ * 本地注册中心
+ * @author classgeng
  */
 public class LocalRegistry {
 
@@ -41,5 +42,4 @@ public class LocalRegistry {
     public static void remove(String serviceName) {
         map.remove(serviceName);
     }
-
 }

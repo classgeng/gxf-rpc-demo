@@ -1,4 +1,4 @@
-package com.gxf.rpc.provider;
+package com.gxf.rpc.provider.impl;
 
 import com.gxf.rpc.api.model.User;
 import com.gxf.rpc.api.service.UserService;

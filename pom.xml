@@ -25,6 +25,7 @@
     <modules>
         <module>gxf-rpc-api</module>
         <module>gxf-rpc-registry</module>
+        <module>gxf-rpc-registry-client</module>
         <module>gxf-rpc-core</module>
         <module>gxf-rpc-provider</module>
         <module>gxf-rpc-consumer</module>
@@ -46,6 +47,11 @@
             <dependency>
                 <groupId>com.gxf.rpc.demo</groupId>
                 <artifactId>gxf-rpc-registry</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.gxf.rpc.demo</groupId>
+                <artifactId>gxf-rpc-registry-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
